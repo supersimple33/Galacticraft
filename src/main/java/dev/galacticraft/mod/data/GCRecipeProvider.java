@@ -22,13 +22,14 @@
 
 package dev.galacticraft.mod.data;
 
-import dev.galacticraft.mod.content.item.GCItem;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import dev.galacticraft.mod.content.item.GCItems;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -42,15 +43,16 @@ import net.minecraft.world.level.ItemLike;
 import java.util.function.Consumer;
 
 public class GCRecipeProvider extends FabricRecipeProvider {
-    public GCRecipeProvider(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
+
+    public GCRecipeProvider(FabricDataOutput output) {
+        super(output);
     }
 
     @Override
-    protected void generateRecipes(Consumer<FinishedRecipe> exporter) {
+    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
         // Special
-        ShapedRecipeBuilder.shaped(GCItem.ROCKET_LAUNCH_PAD, 9)
-                .define('C', GCItem.COMPRESSED_IRON)
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, GCItems.ROCKET_LAUNCH_PAD, 9)
+                .define('C', GCItems.COMPRESSED_IRON)
                 .define('I', Items.IRON_BLOCK)
                 .pattern("CCC")
                 .pattern("III")

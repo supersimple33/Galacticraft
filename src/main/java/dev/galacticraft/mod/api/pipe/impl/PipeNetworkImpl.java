@@ -22,7 +22,7 @@
 
 package dev.galacticraft.mod.api.pipe.impl;
 
-import dev.galacticraft.machinelib.impl.fluid.FluidStack;
+import dev.galacticraft.machinelib.api.fluid.FluidStack;
 import dev.galacticraft.mod.Constant;
 import dev.galacticraft.mod.Galacticraft;
 import dev.galacticraft.mod.api.pipe.Pipe;
@@ -53,7 +53,7 @@ public class PipeNetworkImpl implements PipeNetwork {
     private boolean markedForRemoval = false;
     private final long maxTransferRate;
     private int tickId;
-    private @NotNull long transferred = 0;
+    private long transferred = 0;
     private @Nullable FluidVariant fluidTransferred = null; //can transfer <maxTransferRate> amount of fluid of 1 type per tick
 
     public PipeNetworkImpl(@NotNull ServerLevel world, long maxTransferRate) {
@@ -237,7 +237,7 @@ public class PipeNetworkImpl implements PipeNetwork {
             this.transferred = 0;
             this.fluidTransferred = null;
         } else {
-            if (this.fluidTransferred != null && FluidVariant.of(stack.getFluid(), stack.getNbt()) != this.fluidTransferred || this.transferred >= this.maxTransferRate) {
+            if (this.fluidTransferred != null && FluidVariant.of(stack.getFluid(), stack.getTag()) != this.fluidTransferred || this.transferred >= this.maxTransferRate) {
                 return stack.getAmount();
             }
         }
@@ -255,7 +255,7 @@ public class PipeNetworkImpl implements PipeNetwork {
             return stack.getAmount() + skipped;
         }
         var ref = new Object() {
-            FluidStack available = FluidStack.EMPTY;
+            FluidStack available = FluidStack.empty();
         };
         ref.available = stack;
         double ratio = Math.min((double)stack.getAmount() / (double)requested, 1.0);
@@ -281,7 +281,7 @@ public class PipeNetworkImpl implements PipeNetwork {
             long consumed = Math.min((long)Math.min(available.getAmount(), amount.getAmount() * ratio), this.getMaxTransferRate() - this.transferred);
             long skipped = (long) (available.getAmount() * ratio) - consumed;
             if (consumed <= 0) continue;
-            consumed = insertable.insert(FluidVariant.of(available.getFluid(), available.getNbt()), consumed, context);
+            consumed = insertable.insert(FluidVariant.of(available.getFluid(), available.getTag()), consumed, context);
              available.setAmount(available.getAmount() - consumed + skipped);
             this.transferred = this.transferred + consumed;
         }
@@ -295,7 +295,7 @@ public class PipeNetworkImpl implements PipeNetwork {
             this.transferred = 0;
             this.fluidTransferred = null;
         } else {
-            if (this.fluidTransferred != null && FluidVariant.of(stack.getFluid(), stack.getNbt()) != this.fluidTransferred) {
+            if (this.fluidTransferred != null && FluidVariant.of(stack.getFluid(), stack.getTag()) != this.fluidTransferred) {
                 fluidRequirement.putIfAbsent(this, 0);
                 return;
             }
@@ -310,7 +310,7 @@ public class PipeNetworkImpl implements PipeNetwork {
             for (ObjectIterator<Object2ObjectMap.Entry<BlockPos, Storage<FluidVariant>>> it = this.getInsertable().object2ObjectEntrySet().fastIterator(); it.hasNext(); ) {
                 Map.Entry<BlockPos, Storage<FluidVariant>> entry = it.next();
                 if (entry.getKey().equals(source)) continue;
-                long success = entry.getValue().simulateInsert(FluidVariant.of(stack.getFluid(), stack.getNbt()), stack.getAmount(), context);
+                long success = entry.getValue().simulateInsert(FluidVariant.of(stack.getFluid(), stack.getTag()), stack.getAmount(), context);
                 if (success > 0) {
                     requested = requested + success;
                     if (requested >= this.maxTransferRate - this.transferred) {

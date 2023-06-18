@@ -23,13 +23,13 @@
 package dev.galacticraft.mod.lookup;
 
 import dev.galacticraft.machinelib.api.block.entity.MachineBlockEntity;
-import dev.galacticraft.machinelib.api.gas.Gases;
+import dev.galacticraft.api.gas.Gases;
 import dev.galacticraft.mod.Constant;
-import dev.galacticraft.mod.api.block.entity.WireBlockEntity;
+import dev.galacticraft.mod.content.GCBlockEntityTypes;
 import dev.galacticraft.mod.content.GCBlocks;
-import dev.galacticraft.mod.content.block.entity.GCBlockEntityTypes;
+import dev.galacticraft.mod.content.block.entity.networked.WireBlockEntity;
 import dev.galacticraft.mod.content.block.special.fluidpipe.PipeBlockEntity;
-import dev.galacticraft.mod.content.item.GCItem;
+import dev.galacticraft.mod.content.item.GCItems;
 import dev.galacticraft.mod.content.item.OxygenTankItem;
 import dev.galacticraft.mod.storage.SingleTypeStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -40,7 +40,6 @@ import team.reborn.energy.api.EnergyStorage;
 
 @SuppressWarnings("UnstableApiUsage")
 public class GCApiLookupProviders {
-    @SuppressWarnings("rawtypes")
     private static final Block[] MACHINE_BLOCKS = new Block[]{
             GCBlocks.COAL_GENERATOR,
             GCBlocks.BASIC_SOLAR_PANEL,
@@ -55,7 +54,7 @@ public class GCApiLookupProviders {
             GCBlocks.OXYGEN_COMPRESSOR,
             GCBlocks.OXYGEN_DECOMPRESSOR,
             GCBlocks.OXYGEN_SEALER,
-            GCBlocks.BUBBLE_DISTRIBUTOR,
+            GCBlocks.OXYGEN_BUBBLE_DISTRIBUTOR,
             GCBlocks.ENERGY_STORAGE_MODULE,
             GCBlocks.OXYGEN_STORAGE_MODULE
     };
@@ -94,7 +93,7 @@ public class GCApiLookupProviders {
                     itemStack.getOrCreateTag().putLong(Constant.Nbt.VALUE, this.getAmount());
                 }
             };
-        }, GCItem.SMALL_OXYGEN_TANK, GCItem.MEDIUM_OXYGEN_TANK, GCItem.LARGE_OXYGEN_TANK);
-        FluidStorage.ITEM.registerSelf(GCItem.INFINITE_OXYGEN_TANK);
+        }, GCItems.SMALL_OXYGEN_TANK, GCItems.MEDIUM_OXYGEN_TANK, GCItems.LARGE_OXYGEN_TANK);
+        FluidStorage.ITEM.registerSelf(GCItems.INFINITE_OXYGEN_TANK);
     }
 }

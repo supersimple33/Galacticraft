@@ -25,7 +25,7 @@ package dev.galacticraft.mod.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.galacticraft.mod.Constant;
-import dev.galacticraft.mod.content.block.entity.OxygenBubbleDistributorBlockEntity;
+import dev.galacticraft.mod.content.block.entity.machine.OxygenBubbleDistributorBlockEntity;
 import dev.galacticraft.mod.content.entity.BubbleEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -88,6 +88,6 @@ public class BubbleEntityRenderer extends EntityRenderer<BubbleEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(BubbleEntity entity) {
-        return bubbleModel.getParticleIcon().getName();
+        return bubbleModel.getParticleIcon().atlasLocation();
     }
 }

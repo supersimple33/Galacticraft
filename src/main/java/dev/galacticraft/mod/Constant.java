@@ -22,33 +22,20 @@
 
 package dev.galacticraft.mod;
 
-import com.google.common.base.Predicates;
-import dev.galacticraft.mod.content.item.GCItem;
-import dev.galacticraft.mod.lookup.predicate.ItemResourceTagExtractPredicate;
-import dev.galacticraft.mod.lookup.predicate.ItemResourceTagInsertPredicate;
-import dev.galacticraft.mod.lookup.predicate.TagPredicate;
-import dev.galacticraft.mod.data.GCTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import team.reborn.energy.api.EnergyStorage;
-
-import java.util.function.Predicate;
 
 /**
  * @author <a href="https://github.com/TeamGalacticraft">TeamGalacticraft</a>
@@ -58,8 +45,14 @@ public interface Constant {
     String ADDON_API_ID = "galacticraft-api";
     String COMMON_NAMESPACE = "c";
 
-    static ResourceLocation id(String id) {
+    @Contract(value = "_ -> new", pure = true)
+    static @NotNull ResourceLocation id(String id) {
         return new ResourceLocation(MOD_ID, id);  
+    }
+
+    @Contract(value = "_, _ -> new", pure = true)
+    static @NotNull <T> ResourceKey<T> key(ResourceKey<Registry<T>> registry, String id) {
+        return ResourceKey.create(registry, Constant.id(id));
     }
 
     interface Block {
@@ -102,6 +95,9 @@ public interface Constant {
         String MARS_SURFACE_ROCK = "mars_surface_rock";
         String MARS_SUB_SURFACE_ROCK = "mars_sub_surface_rock";
         String MARS_STONE = "mars_stone";
+        String MARS_STONE_SLAB = "mars_stone_slab";
+        String MARS_STONE_STAIRS = "mars_stone_stairs";
+        String MARS_STONE_WALL = "mars_stone_wall";
         String MARS_COBBLESTONE = "mars_cobblestone";
         String MARS_COBBLESTONE_SLAB = "mars_cobblestone_slab";
         String MARS_COBBLESTONE_STAIRS = "mars_cobblestone_stairs";
@@ -297,7 +293,7 @@ public interface Constant {
         // Space Base
         String HYDRAULIC_PLATFORM = "hydraulic_platform";
         String MAGNETIC_CRAFTING_TABLE = "magnetic_crafting_table";
-        String NASA_WORKBENCH = "nasa_workbench";
+        String ROCKET_WORKBENCH = "rocket_workbench";
         String AIR_LOCK_FRAME = "air_lock_frame";
         String AIR_LOCK_CONTROLLER = "air_lock_controller";
         String AIR_LOCK_SEAL = "air_lock_seal";
@@ -532,12 +528,19 @@ public interface Constant {
         String LEGACY_MUSIC_DISC_MIMAS = "legacy_music_disc_mimas";
         String LEGACY_MUSIC_DISC_ORBIT = "legacy_music_disc_orbit";
         String LEGACY_MUSIC_DISC_SPACERACE = "legacy_music_disc_spacerace";
+        String ROCKET_FINS = "rocket_fins";
+        String ROCKET_ENGINE = "rocket_engine";
+        String BASIC_ROCKET_CONE_SCHEMATIC = "basic_rocket_cone_schematic";
+        String BASIC_ROCKET_BODY_SCHEMATIC = "basic_rocket_body_schematic";
+        String BASIC_ROCKET_FINS_SCHEMATIC = "basic_rocket_fins_schematic";
+        String BASIC_ROCKET_BOTTOM_SCHEMATIC = "basic_rocket_bottom_schematic";
     }
 
     interface Particle {
         String DRIPPING_FUEL_PARTICLE = "dripping_fuel_particle";
         String DRIPPING_CRUDE_OIL_PARTICLE = "dripping_crude_oil_particle";
         String CRYOGENIC_PARTICLE = "cryogenic_particle";
+        String LANDER_FLAME = "lander_flame_particle";
     }
 
     interface Config {
@@ -583,10 +586,11 @@ public interface Constant {
         ResourceLocation ELECTRIC_COMPRESSOR_SCREEN = id("textures/gui/electric_compressor_screen.png");
         ResourceLocation ENERGY_STORAGE_MODULE_SCREEN = id("textures/gui/energy_storage_module_screen.png");
         ResourceLocation OXYGEN_COLLECTOR_SCREEN = id("textures/gui/oxygen_collector_screen.png");
+        ResourceLocation ROCKET_WORKBENCH_SCREEN = id("textures/gui/rocket_workbench.png");
 
         ResourceLocation MACHINE_CONFIG_PANELS = id("textures/gui/machine_config.png");
         ResourceLocation PLAYER_INVENTORY_SCREEN = id("textures/gui/player_inventory_screen.png");
-        ResourceLocation PLAYER_INVENTORY_TABS = id("textures/gui/player_inventory_switch_tabs.png");
+        ResourceLocation ROCKET_INVENTORY = id("textures/gui/rocket.png");
         ResourceLocation OVERLAY = id("textures/gui/overlay.png");
 
         ResourceLocation MAP_SCREEN = id("textures/gui/map.png");
@@ -618,6 +622,7 @@ public interface Constant {
         String EVOLVED_CREEPER = "evolved_creeper";
         String T1_ROCKET = "t1_rocket";
         String ROCKET = "rocket";
+        String LANDER = "lander";
         String BUBBLE = "bubble";
         String EVOLVED_SKELETON = "evolved_skeleton";
         String EVOLVED_SPIDER = "evolved_spider";
@@ -639,6 +644,7 @@ public interface Constant {
         String OLI_GRUB = "textures/entity/oli_grub.png";
         String COMET_CUBE = "textures/entity/comet_cube.png";
         String GAZER = "textures/entity/gazer.png";
+        String LANDER = "textures/entity/lander.png";
     }
 
     interface TextureCoordinate {
@@ -692,91 +698,32 @@ public interface Constant {
 
     }
 
-    interface ScreenHandler {
-        String COAL_GENERATOR_SCREEN_HANDLER = "coal_generator_screen_handler";
-        String BASIC_SOLAR_PANEL_SCREEN_HANDLER = "basic_solar_panel_screen_handler";
-        String ADVANCED_SOLAR_PANEL_SCREEN_HANDLER = "advanced_solar_panel_screen_handler";
-        String CIRCUIT_FABRICATOR_SCREEN_HANDLER = "circuit_fabricator_screen_handler";
-        String COMPRESSOR_SCREEN_HANDLER = "compressor_screen_handler";
-        String ELECTRIC_COMPRESSOR_SCREEN_HANDLER = "electric_compressor_screen_handler";
-        String PLAYER_INVENTORY_SCREEN_HANDLER = "player_inventory_screen_handler";
-        String ENERGY_STORAGE_MODULE_SCREEN_HANDLER = "energy_storage_module_screen_handler";
-        String REFINERY_SCREEN_HANDLER = "refinery_screen_handler";
-        String ELECTRIC_FURNACE_SCREEN_HANDLER = "electric_furnace_screen_handler";
-        String ELECTRIC_ARC_FURNACE_SCREEN_HANDLER = "electric_arc_furnace_screen_handler";
-        String OXYGEN_COLLECTOR_SCREEN_HANDLER = "oxygen_collector_screen_handler";
-        String BUBBLE_DISTRIBUTOR_SCREEN_HANDLER = "bubble_distributor_screen_handler";
-        String OXYGEN_COMPRESSOR_SCREEN_HANDLER = "oxygen_compressor_screen_handler";
-        String OXYGEN_DECOMPRESSOR_SCREEN_HANDLER = "oxygen_decompressor_screen_handler";
-        String OXYGEN_STORAGE_MODULE_SCREEN_HANDLER = "oxygen_storage_module_screen_handler";
-        String OXYGEN_SEALER_SCREEN_HANDLER = "oxygen_sealer_screen_handler";
-        String FUEL_LOADER_SCREEN_HANDLER = "fuel_loader_screen_handler";
+    interface Menu {
+        String COAL_GENERATOR_MENU = "coal_generator_menu";
+        String BASIC_SOLAR_PANEL_MENU = "basic_solar_panel_menu";
+        String ADVANCED_SOLAR_PANEL_MENU = "advanced_solar_panel_menu";
+        String CIRCUIT_FABRICATOR_MENU = "circuit_fabricator_menu";
+        String COMPRESSOR_MENU = "compressor_menu";
+        String ELECTRIC_COMPRESSOR_MENU = "electric_compressor_menu";
+        String PLAYER_INVENTORY_MENU = "player_inventory_menu";
+        String ENERGY_STORAGE_MODULE_MENU = "energy_storage_module_menu";
+        String REFINERY_MENU = "refinery_menu";
+        String ELECTRIC_FURNACE_MENU = "electric_furnace_menu";
+        String ELECTRIC_ARC_FURNACE_MENU = "electric_arc_furnace_menu";
+        String OXYGEN_COLLECTOR_MENU = "oxygen_collector_menu";
+        String BUBBLE_DISTRIBUTOR_MENU = "bubble_distributor_menu";
+        String OXYGEN_COMPRESSOR_MENU = "oxygen_compressor_menu";
+        String OXYGEN_DECOMPRESSOR_MENU = "oxygen_decompressor_menu";
+        String OXYGEN_STORAGE_MODULE_MENU = "oxygen_storage_module_menu";
+        String OXYGEN_SEALER_MENU = "oxygen_sealer_menu";
+        String FUEL_LOADER_MENU = "fuel_loader_menu";
         String AIR_LOCK_CONTROLLER_MENU = "air_lock_menu";
-    }
-
-    interface Biome {
-        interface Moon {
-            String HIGHLANDS = "moon_highlands";
-            String HIGHLANDS_FLAT = "moon_highlands_flat";
-            String HIGHLANDS_HILLS = "moon_highlands_hills";
-            String HIGHLANDS_EDGE = "moon_highlands_edge";
-            String HIGHLANDS_VALLEY = "moon_highlands_valley";
-            String MARE = "moon_mare";
-            String MARE_FLAT = "moon_mare_flat";
-            String MARE_HILLS = "moon_mare_hills";
-            String MARE_EDGE = "moon_mare_edge";
-            String MARE_VALLEY = "moon_mare_valley";
-        }
+        String ROCKET_WORKBENCH_MENU = "rocket_workbench_menu";
+        String ROCKET = "rocket";
     }
 
     interface LootTable {
         String BASIC_MOON_RUINS_CHEST = "chests/moon_ruins/basic_chest";
-    }
-
-    interface Filter {
-        static <T> @NotNull Predicate<T> any() {
-            return Predicates.alwaysTrue();
-        }
-
-        static <T> @NotNull Predicate<T> none() {
-            return Predicates.alwaysFalse();
-        }
-
-        interface Item {
-            Predicate<ItemVariant> DIAMOND = v -> v.getItem() == Items.DIAMOND;
-            Predicate<ItemVariant> SILICON = v -> v.getItem() == GCItem.RAW_SILICON;
-            Predicate<ItemVariant> REDSTONE = v -> v.getItem() == Items.REDSTONE;
-
-            Predicate<ItemVariant> CAN_EXTRACT_ENERGY = stack -> {
-                EnergyStorage energyStorage = ContainerItemContext.withInitial(stack.toStack()).find(EnergyStorage.ITEM);
-                try (Transaction transaction = Transaction.openOuter()) {
-                    return energyStorage != null && energyStorage.supportsExtraction();
-                }
-            };
-            Predicate<ItemVariant> CAN_INSERT_ENERGY = stack -> {
-                EnergyStorage energyStorage = ContainerItemContext.withInitial(stack.toStack()).find(EnergyStorage.ITEM);
-                try (Transaction transaction = Transaction.openOuter()) {
-                    return energyStorage != null && energyStorage.supportsInsertion() && energyStorage.insert(Long.MAX_VALUE, transaction) > 0;
-                }
-            };
-
-            Predicate<ItemVariant> CAN_EXTRACT_OXYGEN = new ItemResourceTagExtractPredicate<>(FluidStorage.ITEM, Registry.FLUID, GCTags.OXYGEN);
-            Predicate<ItemVariant> CAN_INSERT_OXYGEN = new ItemResourceTagInsertPredicate<>(FluidStorage.ITEM, Registry.FLUID, GCTags.OXYGEN);
-
-            Predicate<ItemVariant> CAN_EXTRACT_OIL = new ItemResourceTagExtractPredicate<>(FluidStorage.ITEM, Registry.FLUID, GCTags.OIL);
-            Predicate<ItemVariant> CAN_INSERT_FUEL = new ItemResourceTagInsertPredicate<>(FluidStorage.ITEM, Registry.FLUID, GCTags.FUEL);
-            Predicate<ItemVariant> CAN_EXTRACT_LOX = new ItemResourceTagExtractPredicate<>(FluidStorage.ITEM, Registry.FLUID, GCTags.LIQUID_OXYGEN);
-        }
-
-        interface Gas {
-            Predicate<FluidVariant> OXYGEN = v -> v.getFluid().is(GCTags.OXYGEN);
-        }
-
-        interface Fluid {
-            Predicate<FluidVariant> LOX_ONLY = new TagPredicate<>(GCTags.LIQUID_OXYGEN, net.minecraft.world.level.material.Fluid::is);
-            Predicate<FluidVariant> OIL = new TagPredicate<>(GCTags.OIL, net.minecraft.world.level.material.Fluid::is);
-            Predicate<FluidVariant> FUEL = new TagPredicate<>(GCTags.FUEL, net.minecraft.world.level.material.Fluid::is);
-        }
     }
 
     interface Text {
@@ -880,6 +827,7 @@ public interface Constant {
     @ApiStatus.Internal
     interface Mixin {
         String STRUCTURE_POOL_DEBUG = "StructurePoolGeneratorMixin";
+        String DATAGEN_COMPRESSION = "DataProviderMixin";
     }
 
     interface Recipe {
@@ -922,11 +870,18 @@ public interface Constant {
         ResourceLocation BUBBLE_VISIBLE = id("bubble_visible");
         ResourceLocation DISABLE_SEAL = id("toggle_seal");
         ResourceLocation OPEN_GC_INVENTORY = id("open_gc_inv");
+        ResourceLocation OPEN_GC_ROCKET = id("open_gc_rocket");
         ResourceLocation ENTITY_SPAWN = id("entity_spawn");
         ResourceLocation CREATE_SATELLITE = id("create_satellite");
         ResourceLocation ROCKET_JUMP = id("rocket_jump");
         ResourceLocation ROCKET_PITCH = id("rocket_pitch");
         ResourceLocation ROCKET_YAW = id("rocket_yaw");
+        ResourceLocation OPEN_SCREEN = id("open_screen");
+
+        ResourceLocation LANDER_PITCH = id("lander_pitch");
+        ResourceLocation LANDER_YAW = id("lander_yaw");
+        ResourceLocation LANDER_ACCERLERATE = id("lander_accelerate");
+        ResourceLocation ENTITY_UPDATE = id("entity_update");
     }
 
     interface Structure {

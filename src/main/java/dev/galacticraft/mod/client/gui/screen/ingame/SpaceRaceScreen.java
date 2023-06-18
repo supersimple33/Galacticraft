@@ -30,7 +30,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
 import dev.galacticraft.mod.Constant;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -43,6 +42,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class SpaceRaceScreen extends Screen {
             private String prevText;
 
             @Override
-            protected void setFocused(boolean focused) {
+            public void setFocused(boolean focused) {
                 if (this.isFocused() != focused) {
                     if (focused) {
                         this.prevText = this.getValue();
@@ -118,7 +119,6 @@ public class SpaceRaceScreen extends Screen {
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
         BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
-        RenderSystem.disableTexture();
         bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         bufferBuilder.vertex(matrix, (float) x1, (float) y2, 0.0F).color(r, g, b, a).endVertex();
         bufferBuilder.vertex(matrix, (float) x2, (float) y2, 0.0F).color(r, g, b, a).endVertex();

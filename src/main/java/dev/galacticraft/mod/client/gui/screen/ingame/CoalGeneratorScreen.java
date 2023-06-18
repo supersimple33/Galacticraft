@@ -25,7 +25,7 @@ package dev.galacticraft.mod.client.gui.screen.ingame;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.galacticraft.machinelib.client.api.screen.MachineScreen;
 import dev.galacticraft.mod.Constant;
-import dev.galacticraft.mod.content.block.entity.CoalGeneratorBlockEntity;
+import dev.galacticraft.mod.content.block.entity.machine.CoalGeneratorBlockEntity;
 import dev.galacticraft.mod.screen.CoalGeneratorMenu;
 import dev.galacticraft.mod.util.DrawableUtil;
 import net.fabricmc.api.EnvType;
@@ -46,16 +46,16 @@ public class CoalGeneratorScreen extends MachineScreen<CoalGeneratorBlockEntity,
     private static final int FIRE_HEIGHT = 14;
 
     public CoalGeneratorScreen(CoalGeneratorMenu handler, Inventory inv, Component title) {
-        super(handler, inv, title, Constant.ScreenTexture.COAL_GENERATOR_SCREEN);
+        super(handler, title, Constant.ScreenTexture.COAL_GENERATOR_SCREEN);
         this.imageHeight = 176;
     }
 
     @Override
     protected void renderBackground(PoseStack matrices, int mouseX, int mouseY, float delta) {
         super.renderBackground(matrices, mouseX, mouseY, delta);
-        if (this.machine.getFuelLength() > 0) {
-            double scale = 1.0 - ((double)this.machine.getFuelTime()) / (double)this.machine.getFuelLength();
-            DrawableUtil.drawProgressTexture(matrices, this.leftPos + FIRE_X, this.topPos + FIRE_Y + FIRE_HEIGHT - (float) (FIRE_HEIGHT * scale), this.getBlitOffset(), FIRE_U, FIRE_V + FIRE_HEIGHT - (float) (FIRE_HEIGHT * scale), FIRE_WIDTH, (float) (FIRE_HEIGHT * scale));
+        if (this.menu.getFuelLength() > 0) {
+            double scale = 1.0 - ((double)this.menu.getFuelTime()) / (double)this.menu.getFuelLength();
+            DrawableUtil.drawProgressTexture(matrices, this.leftPos + FIRE_X, this.topPos + FIRE_Y + FIRE_HEIGHT - (float) (FIRE_HEIGHT * scale), 0, FIRE_U, FIRE_V + FIRE_HEIGHT - (float) (FIRE_HEIGHT * scale), FIRE_WIDTH, (float) (FIRE_HEIGHT * scale));
         }
     }
 }
