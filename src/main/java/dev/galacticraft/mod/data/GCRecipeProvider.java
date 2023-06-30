@@ -67,6 +67,11 @@ public class GCRecipeProvider extends FabricRecipeProvider {
         // Armor Sets
         buildArmorSet(exporter, GCItems.COMPRESSED_STEEL, GCItems.HEAVY_DUTY_HELMET, GCItems.HEAVY_DUTY_CHESTPLATE, GCItems.HEAVY_DUTY_LEGGINGS, GCItems.HEAVY_DUTY_BOOTS);
         buildArmorSet(exporter, GCItems.DESH_INGOT, GCItems.DESH_HELMET, GCItems.DESH_CHESTPLATE, GCItems.DESH_LEGGINGS, GCItems.DESH_BOOTS); // REVIEW: could also do COMPRESSED_DESH here?
+//        buildArmorUpgrade(exporter, GCItems.TIER_3_ROCKET_SCHEMATIC, GCItems.COMPRESSED_TITANIUM, GCItems.DESH_HELMET, GCItems.DESH_CHESTPLATE, GCItems.DESH_LEGGINGS, GCItems.DESH_BOOTS,
+//                GCItems.TITANIUM_HELMET, GCItems.TITANIUM_CHESTPLATE, GCItems.TITANIUM_LEGGINGS, GCItems.TITANIUM_BOOTS);
+        // TODO: Uncomment once upgraded to 1.20
+
+
     }
 
     private void build3x3Compression(Consumer<FinishedRecipe> exporter, Item input, Item result,
@@ -130,5 +135,22 @@ public class GCRecipeProvider extends FabricRecipeProvider {
                 .pattern("I I")
                 .unlockedBy(getHasName(base), has(base))
                 .save(exporter, RecipeBuilder.getDefaultRecipeId(boots).withPrefix("armor/"));
+    }
+
+    private void buildArmorUpgrade(Consumer<FinishedRecipe> exporter, Item template, Item upgrade, Item baseHelmet,
+                                   Item baseChestplate, Item baseLeggings, Item baseBoots, Item upgradeHelmet,
+                                   Item upgradeChestplate, Item upgradeLeggings, Item upgradeBoots) {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template), Ingredient.of(baseHelmet), Ingredient.of(upgrade), RecipeCategory.COMBAT, upgradeHelmet)
+                .unlocks("has_upgrade", has(upgrade))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(upgradeHelmet).withPrefix("armor/"));
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template), Ingredient.of(baseChestplate), Ingredient.of(upgrade), RecipeCategory.COMBAT, upgradeChestplate)
+                .unlocks("has_upgrade", has(upgrade))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(upgradeChestplate).withPrefix("armor/"));
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template), Ingredient.of(baseLeggings), Ingredient.of(upgrade), RecipeCategory.COMBAT, upgradeLeggings)
+                .unlocks("has_upgrade", has(upgrade))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(upgradeLeggings).withPrefix("armor/"));
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template), Ingredient.of(baseBoots), Ingredient.of(upgrade), RecipeCategory.COMBAT, upgradeBoots)
+                .unlocks("has_upgrade", has(upgrade))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(upgradeBoots).withPrefix("armor/"));
     }
 }
