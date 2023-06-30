@@ -28,6 +28,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
@@ -46,6 +47,24 @@ public class GCRecipeProvider extends FabricRecipeProvider {
                 .pattern("CCC")
                 .pattern("III")
                 .unlockedBy(getHasName(Items.IRON_BLOCK), has(Items.IRON_BLOCK))
+                .save(exporter);
+
+        // Nuggets to Ingots
+        build3x3Compression(exporter, GCItems.METEORIC_IRON_NUGGET, GCItems.METEORIC_IRON_INGOT);
+        build3x3Compression(exporter, GCItems.DESH_NUGGET, GCItems.DESH_INGOT);
+        build3x3Compression(exporter, GCItems.LEAD_NUGGET, GCItems.LEAD_INGOT);
+        build3x3Compression(exporter, GCItems.ALUMINUM_NUGGET, GCItems.ALUMINUM_INGOT);
+        build3x3Compression(exporter, GCItems.TIN_NUGGET, GCItems.TIN_INGOT);
+        build3x3Compression(exporter, GCItems.TITANIUM_NUGGET, GCItems.TITANIUM_INGOT);
+    }
+
+    private void build3x3Compression(Consumer<FinishedRecipe> exporter, Item input, Item result) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result, 1)
+                .define('I', input)
+                .pattern("III")
+                .pattern("III")
+                .pattern("III")
+                .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
 }
