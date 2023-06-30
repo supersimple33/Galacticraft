@@ -28,6 +28,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -49,13 +50,13 @@ public class GCRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(Items.IRON_BLOCK), has(Items.IRON_BLOCK))
                 .save(exporter);
 
-        // Nuggets to Ingots
-        build3x3Compression(exporter, GCItems.METEORIC_IRON_NUGGET, GCItems.METEORIC_IRON_INGOT);
-        build3x3Compression(exporter, GCItems.DESH_NUGGET, GCItems.DESH_INGOT);
-        build3x3Compression(exporter, GCItems.LEAD_NUGGET, GCItems.LEAD_INGOT);
-        build3x3Compression(exporter, GCItems.ALUMINUM_NUGGET, GCItems.ALUMINUM_INGOT);
-        build3x3Compression(exporter, GCItems.TIN_NUGGET, GCItems.TIN_INGOT);
-        build3x3Compression(exporter, GCItems.TITANIUM_NUGGET, GCItems.TITANIUM_INGOT);
+        // Nuggets <-> Ingots
+        buildExpansionCompressionPair(exporter, GCItems.METEORIC_IRON_NUGGET, GCItems.METEORIC_IRON_INGOT);
+        buildExpansionCompressionPair(exporter, GCItems.DESH_NUGGET, GCItems.DESH_INGOT);
+        buildExpansionCompressionPair(exporter, GCItems.LEAD_NUGGET, GCItems.LEAD_INGOT);
+        buildExpansionCompressionPair(exporter, GCItems.ALUMINUM_NUGGET, GCItems.ALUMINUM_INGOT);
+        buildExpansionCompressionPair(exporter, GCItems.TIN_NUGGET, GCItems.TIN_INGOT);
+        buildExpansionCompressionPair(exporter, GCItems.TITANIUM_NUGGET, GCItems.TITANIUM_INGOT);
     }
 
     private void build3x3Compression(Consumer<FinishedRecipe> exporter, Item input, Item result) {
@@ -67,4 +68,17 @@ public class GCRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
+
+    private void build9Expansion(Consumer<FinishedRecipe> exporter, Item input, Item result) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, result, 9)
+                .requires(input, 1)
+                .unlockedBy(getHasName(input), has(input))
+                .save(exporter);
+    }
+
+    private void buildExpansionCompressionPair(Consumer<FinishedRecipe> exporter, Item expansionVariant, Item compressedVariant) {
+        build3x3Compression(exporter, expansionVariant, compressedVariant);
+        build9Expansion(exporter, compressedVariant, expansionVariant);
+    }
+
 }
