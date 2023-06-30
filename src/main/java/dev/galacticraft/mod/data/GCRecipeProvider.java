@@ -28,6 +28,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -62,6 +63,10 @@ public class GCRecipeProvider extends FabricRecipeProvider {
         buildExpansionCompressionPair(exporter, GCItems.LEAD_INGOT, GCItems.LEAD_BLOCK, "_from_block", null);
         // skips aluminum and tin blocks
         buildExpansionCompressionPair(exporter, GCItems.TITANIUM_INGOT, GCItems.TITANIUM_BLOCK, "_from_block", null);
+
+        // Armor Sets
+        buildArmorSet(exporter, GCItems.COMPRESSED_STEEL, GCItems.HEAVY_DUTY_HELMET, GCItems.HEAVY_DUTY_CHESTPLATE, GCItems.HEAVY_DUTY_LEGGINGS, GCItems.HEAVY_DUTY_BOOTS);
+        buildArmorSet(exporter, GCItems.DESH_INGOT, GCItems.DESH_HELMET, GCItems.DESH_CHESTPLATE, GCItems.DESH_LEGGINGS, GCItems.DESH_BOOTS); // REVIEW: could also do COMPRESSED_DESH here?
     }
 
     private void build3x3Compression(Consumer<FinishedRecipe> exporter, Item input, Item result,
@@ -98,4 +103,32 @@ public class GCRecipeProvider extends FabricRecipeProvider {
         build9Expansion(exporter, compressedVariant, expansionVariant, suffixExpansion);
     }
 
+    private void buildArmorSet(Consumer<FinishedRecipe> exporter, Item base, Item helmet, Item chestplate, Item leggings, Item boots) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, helmet, 1)
+                .define('I', base)
+                .pattern("III")
+                .pattern("I I")
+                .unlockedBy(getHasName(base), has(base))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(helmet).withPrefix("armor/"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, chestplate, 1)
+                .define('I', base)
+                .pattern("I I")
+                .pattern("III")
+                .pattern("III")
+                .unlockedBy(getHasName(base), has(base))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(chestplate).withPrefix("armor/"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, leggings, 1)
+                .define('I', base)
+                .pattern("III")
+                .pattern("I I")
+                .pattern("I I")
+                .unlockedBy(getHasName(base), has(base))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(leggings).withPrefix("armor/"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, boots, 1)
+                .define('I', base)
+                .pattern("I I")
+                .pattern("I I")
+                .unlockedBy(getHasName(base), has(base))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(boots).withPrefix("armor/"));
+    }
 }
