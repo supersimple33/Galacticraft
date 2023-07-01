@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#c:raw_aluminum_ores",
+    "#c:raw_lead_ores",
+    "#c:raw_tin_ores"
+  ]
+}

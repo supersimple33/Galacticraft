@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "galacticraft:aluminum_decoration_wall",
+    "galacticraft:detailed_aluminum_decoration_wall",
+    "galacticraft:bronze_decoration_wall",
+    "galacticraft:detailed_bronze_decoration_wall",
+    "galacticraft:copper_decoration_wall",
+    "galacticraft:detailed_copper_decoration_wall",
+    "galacticraft:dark_decoration_wall",
+    "galacticraft:iron_decoration_wall",
+    "galacticraft:detailed_iron_decoration_wall",
+    "galacticraft:meteoric_iron_decoration_wall",
+    "galacticraft:detailed_meteoric_iron_decoration_wall",
+    "galacticraft:steel_decoration_wall",
+    "galacticraft:detailed_steel_decoration_wall",
+    "galacticraft:tin_decoration_wall",
+    "galacticraft:detailed_tin_decoration_wall"
+  ]
+}

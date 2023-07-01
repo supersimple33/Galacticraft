@@ -26,6 +26,7 @@ import dev.galacticraft.mod.content.item.GCItems;
 import dev.galacticraft.mod.tag.GCTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 
@@ -59,6 +60,15 @@ public class GCItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(this.reverseLookup(GCItems.DESH_SWORD))
                 .add(this.reverseLookup(GCItems.TITANIUM_SWORD));
 
+        this.tag(ConventionalItemTags.FOODS)
+                .add(this.reverseLookup(GCItems.CANNED_BEEF)).add(this.reverseLookup(GCItems.CANNED_DEHYDRATED_CARROT))
+                .add(this.reverseLookup(GCItems.CANNED_DEHYDRATED_MELON)).add(this.reverseLookup(GCItems.CANNED_DEHYDRATED_APPLE))
+                .add(this.reverseLookup(GCItems.CANNED_DEHYDRATED_POTATO))
+                .add(this.reverseLookup(GCItems.MOON_BERRIES))
+                .add(this.reverseLookup(GCItems.CHEESE_CURD)).add(this.reverseLookup(GCItems.CHEESE_SLICE))
+                .add(this.reverseLookup(GCItems.BURGER_BUN)).add(this.reverseLookup(GCItems.GROUND_BEEF))
+                .add(this.reverseLookup(GCItems.BEEF_PATTY)).add(this.reverseLookup(GCItems.CHEESEBURGER));
+
         this.tag(GCTags.ALUMINUM_INGOTS)
                 .add(this.reverseLookup(GCItems.ALUMINUM_INGOT));
         this.tag(GCTags.RAW_ALUMINUM_ORES)
@@ -78,5 +88,57 @@ public class GCItemTagProvider extends FabricTagProvider.ItemTagProvider {
         //        "galacticraft:legacy_music_disc_mimas",
         //        "galacticraft:legacy_music_disc_orbit",
         //        "galacticraft:legacy_music_disc_spacerace"
+
+        this.tag(GCTags.DECORATION_BLOCKS)
+                .add(this.reverseLookup(GCItems.ALUMINUM_DECORATION)).add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_SLAB)).add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.BRONZE_DECORATION)).add(this.reverseLookup(GCItems.BRONZE_DECORATION_SLAB)).add(this.reverseLookup(GCItems.BRONZE_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.BRONZE_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.COPPER_DECORATION)).add(this.reverseLookup(GCItems.COPPER_DECORATION_SLAB)).add(this.reverseLookup(GCItems.COPPER_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.COPPER_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DARK_DECORATION)).add(this.reverseLookup(GCItems.DARK_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DARK_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DARK_DECORATION_WALL))
+//                .add(this.reverseLookup(GCItems.DETAILED_DARK_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_DARK_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_DARK_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_DARK_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.IRON_DECORATION)).add(this.reverseLookup(GCItems.IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION)).add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.STEEL_DECORATION)).add(this.reverseLookup(GCItems.STEEL_DECORATION_SLAB)).add(this.reverseLookup(GCItems.STEEL_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.STEEL_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.TIN_DECORATION)).add(this.reverseLookup(GCItems.TIN_DECORATION_SLAB)).add(this.reverseLookup(GCItems.TIN_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.TIN_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_WALL));
+
+        this.tag(ItemTags.SLABS)
+                .add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.BRONZE_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.COPPER_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.DARK_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.STEEL_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_SLAB))
+                .add(this.reverseLookup(GCItems.TIN_DECORATION_SLAB)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_SLAB));
+
+        this.tag(ItemTags.STAIRS)
+                .add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.BRONZE_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.COPPER_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.DARK_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.STEEL_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_STAIRS))
+                .add(this.reverseLookup(GCItems.TIN_DECORATION_STAIRS)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_STAIRS));
+
+        this.tag(ItemTags.WALLS)
+                .add(this.reverseLookup(GCItems.ALUMINUM_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_ALUMINUM_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.BRONZE_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_BRONZE_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.COPPER_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_COPPER_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.DARK_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.IRON_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.METEORIC_IRON_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_METEORIC_IRON_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.STEEL_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_STEEL_DECORATION_WALL))
+                .add(this.reverseLookup(GCItems.TIN_DECORATION_WALL)).add(this.reverseLookup(GCItems.DETAILED_TIN_DECORATION_WALL));
+
+        this.tag(ConventionalItemTags.ORES)
+                .addTag(GCTags.RAW_ALUMINUM_ORES).addTag(GCTags.RAW_LEAD_ORES).addTag(GCTags.RAW_TIN_ORES);
+        // TODO: fill in ^^
     }
 }

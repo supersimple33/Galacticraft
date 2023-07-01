@@ -63,6 +63,7 @@ public class GCRecipeProvider extends FabricRecipeProvider {
         buildExpansionCompressionPair(exporter, GCItems.LEAD_INGOT, GCItems.LEAD_BLOCK, "_from_block", null);
         // skips aluminum and tin blocks
         buildExpansionCompressionPair(exporter, GCItems.TITANIUM_INGOT, GCItems.TITANIUM_BLOCK, "_from_block", null);
+        buildExpansionCompressionPair(exporter, GCItems.LUNAR_SAPPHIRE, GCItems.LUNAR_SAPPHIRE_BLOCK, null, null);
 
         // Armor Sets
         buildArmorSet(exporter, GCItems.COMPRESSED_STEEL, GCItems.HEAVY_DUTY_HELMET, GCItems.HEAVY_DUTY_CHESTPLATE, GCItems.HEAVY_DUTY_LEGGINGS, GCItems.HEAVY_DUTY_BOOTS);
@@ -71,7 +72,24 @@ public class GCRecipeProvider extends FabricRecipeProvider {
 //                GCItems.TITANIUM_HELMET, GCItems.TITANIUM_CHESTPLATE, GCItems.TITANIUM_LEGGINGS, GCItems.TITANIUM_BOOTS);
         // TODO: Uncomment once upgraded to 1.20
 
-
+        // Decoration Variants
+//        generateBuildingBlockVariants(exporter, GCItems.ALUMINUM_DECORATION, GCItems.ALUMINUM_DECORATION_SLAB, GCItems.ALUMINUM_DECORATION_STAIRS, GCItems.ALUMINUM_DECORATION_WALL, "decoration/aluminum/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_ALUMINUM_DECORATION, GCItems.DETAILED_ALUMINUM_DECORATION_SLAB, GCItems.DETAILED_ALUMINUM_DECORATION_STAIRS, GCItems.DETAILED_ALUMINUM_DECORATION_WALL, "decoration/aluminum/");
+//        generateBuildingBlockVariants(exporter, GCItems.BRONZE_DECORATION, GCItems.BRONZE_DECORATION_SLAB, GCItems.BRONZE_DECORATION_STAIRS, GCItems.BRONZE_DECORATION_WALL, "decoration/bronze/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_BRONZE_DECORATION, GCItems.DETAILED_BRONZE_DECORATION_SLAB, GCItems.DETAILED_BRONZE_DECORATION_STAIRS, GCItems.DETAILED_BRONZE_DECORATION_WALL, "decoration/bronze/");
+//        generateBuildingBlockVariants(exporter, GCItems.COPPER_DECORATION, GCItems.COPPER_DECORATION_SLAB, GCItems.COPPER_DECORATION_STAIRS, GCItems.COPPER_DECORATION_WALL, "decoration/copper/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_COPPER_DECORATION, GCItems.DETAILED_COPPER_DECORATION_SLAB, GCItems.DETAILED_COPPER_DECORATION_STAIRS, GCItems.DETAILED_COPPER_DECORATION_WALL, "decoration/copper/");
+//        generateBuildingBlockVariants(exporter, GCItems.DARK_DECORATION, GCItems.DARK_DECORATION_SLAB, GCItems.DARK_DECORATION_STAIRS, GCItems.DARK_DECORATION_WALL, "decoration/dark/");
+//        generateBuildingBlockVariants(exporter, GCItems.IRON_DECORATION, GCItems.IRON_DECORATION_SLAB, GCItems.IRON_DECORATION_STAIRS, GCItems.IRON_DECORATION_WALL, "decoration/iron/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_IRON_DECORATION, GCItems.DETAILED_IRON_DECORATION_SLAB, GCItems.DETAILED_IRON_DECORATION_STAIRS, GCItems.DETAILED_IRON_DECORATION_WALL, "decoration/iron/");
+//        generateBuildingBlockVariants(exporter, GCItems.METEORIC_IRON_DECORATION, GCItems.METEORIC_IRON_DECORATION_SLAB, GCItems.METEORIC_IRON_DECORATION_STAIRS, GCItems.METEORIC_IRON_DECORATION_WALL, "decoration/meteoric_iron/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_METEORIC_IRON_DECORATION, GCItems.DETAILED_METEORIC_IRON_DECORATION_SLAB, GCItems.DETAILED_METEORIC_IRON_DECORATION_STAIRS, GCItems.DETAILED_METEORIC_IRON_DECORATION_WALL, "decoration/meteoric_iron/");
+//        generateBuildingBlockVariants(exporter, GCItems.STEEL_DECORATION, GCItems.STEEL_DECORATION_SLAB, GCItems.STEEL_DECORATION_STAIRS, GCItems.STEEL_DECORATION_WALL, "decoration/steel/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_STEEL_DECORATION, GCItems.DETAILED_STEEL_DECORATION_SLAB, GCItems.DETAILED_STEEL_DECORATION_STAIRS, GCItems.DETAILED_STEEL_DECORATION_WALL, "decoration/steel/");
+//        generateBuildingBlockVariants(exporter, GCItems.TIN_DECORATION, GCItems.TIN_DECORATION_SLAB, GCItems.TIN_DECORATION_STAIRS, GCItems.TIN_DECORATION_WALL, "decoration/tin/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_TIN_DECORATION, GCItems.DETAILED_TIN_DECORATION_SLAB, GCItems.DETAILED_TIN_DECORATION_STAIRS, GCItems.DETAILED_TIN_DECORATION_WALL, "decoration/tin/");
+//        generateBuildingBlockVariants(exporter, GCItems.TITANIUM_DECORATION, GCItems.TITANIUM_DECORATION_SLAB, GCItems.TITANIUM_DECORATION_STAIRS, GCItems.TITANIUM_DECORATION_WALL, "decoration/titanium/");
+//        generateBuildingBlockVariants(exporter, GCItems.DETAILED_TITANIUM_DECORATION, GCItems.DETAILED_TITANIUM_DECORATION_SLAB, GCItems.DETAILED_TITANIUM_DECORATION_STAIRS, GCItems.DETAILED_TITANIUM_DECORATION_WALL, "decoration/titanium/");
     }
 
     private void build3x3Compression(Consumer<FinishedRecipe> exporter, Item input, Item result,
@@ -152,5 +170,43 @@ public class GCRecipeProvider extends FabricRecipeProvider {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(template), Ingredient.of(baseBoots), Ingredient.of(upgrade), RecipeCategory.COMBAT, upgradeBoots)
                 .unlocks("has_upgrade", has(upgrade))
                 .save(exporter, RecipeBuilder.getDefaultRecipeId(upgradeBoots).withPrefix("armor/"));
+    }
+
+    private void generateBuildingBlockVariants(Consumer<FinishedRecipe> exporter, Item base, Item block, Item slab, Item stair, Item wall, String prefix) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, block, 1)
+                .define('S', Items.STONE)
+                .define('B', base)
+                .pattern("SS")
+                .pattern("SS")
+                .pattern(" B")
+                .unlockedBy(getHasName(base), has(base))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(block).withPrefix(prefix));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
+                .define('I', block)
+                .pattern("III")
+                .unlockedBy(getHasName(block), has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(slab).withPrefix(prefix));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, stair, 4)
+                .define('I', block)
+                .pattern("I  ")
+                .pattern("II ")
+                .pattern("III")
+                .unlockedBy(getHasName(block), has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(stair).withPrefix(prefix));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, wall, 6)
+                .define('I', block)
+                .pattern("III")
+                .pattern("III")
+                .unlockedBy(getHasName(block), has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(wall).withPrefix(prefix));
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(block), RecipeCategory.BUILDING_BLOCKS, slab, 2)
+                .unlockedBy("has_item", has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(slab).withPrefix(prefix).withSuffix("_sc"));
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(block), RecipeCategory.BUILDING_BLOCKS, stair)
+                .unlockedBy("has_item", has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(stair).withPrefix(prefix).withSuffix("_sc"));
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(block), RecipeCategory.BUILDING_BLOCKS, wall, 1)
+                .unlockedBy("has_item", has(block))
+                .save(exporter, RecipeBuilder.getDefaultRecipeId(wall).withPrefix(prefix).withSuffix("_sc"));
     }
 }

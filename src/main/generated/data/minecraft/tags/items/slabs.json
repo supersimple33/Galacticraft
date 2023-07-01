@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "galacticraft:aluminum_decoration_slab",
+    "galacticraft:detailed_aluminum_decoration_slab",
+    "galacticraft:bronze_decoration_slab",
+    "galacticraft:detailed_bronze_decoration_slab",
+    "galacticraft:copper_decoration_slab",
+    "galacticraft:detailed_copper_decoration_slab",
+    "galacticraft:dark_decoration_slab",
+    "galacticraft:iron_decoration_slab",
+    "galacticraft:detailed_iron_decoration_slab",
+    "galacticraft:meteoric_iron_decoration_slab",
+    "galacticraft:detailed_meteoric_iron_decoration_slab",
+    "galacticraft:steel_decoration_slab",
+    "galacticraft:detailed_steel_decoration_slab",
+    "galacticraft:tin_decoration_slab",
+    "galacticraft:detailed_tin_decoration_slab"
+  ]
+}

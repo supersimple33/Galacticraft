@@ -64,6 +64,8 @@ public class GCTags {
     public static final TagKey<Item> TIN_INGOTS = TagKey.create(Registries.ITEM, new ResourceLocation(Constant.COMMON_NAMESPACE, "tin_ingots"));
     public static final TagKey<Item> RAW_TIN_ORES = TagKey.create(Registries.ITEM, new ResourceLocation(Constant.COMMON_NAMESPACE, "raw_tin_ores"));
 
+    public static final TagKey<Item> DECORATION_BLOCKS = TagKey.create(Registries.ITEM, new ResourceLocation(Constant.COMMON_NAMESPACE, "decoration_blocks"));
+
     public static final TagKey<Structure> MOON_RUINS = TagKey.create(Registries.STRUCTURE, Constant.id("moon_ruins"));
 
     public static void register() {
