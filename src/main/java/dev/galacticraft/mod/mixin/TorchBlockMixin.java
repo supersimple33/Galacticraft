@@ -49,17 +49,16 @@ public abstract class TorchBlockMixin extends Block {
 
     @Override
     @Deprecated
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean moved) {
-        super.onPlace(state, world, pos, oldState, moved);
-        CelestialBody<CelestialBodyConfig, ? extends Landable<CelestialBodyConfig>> body = CelestialBody.getByDimension(world).orElse(null);
-        if (body != null && !body.atmosphere().breathable()) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
+        super.onPlace(state, level, pos, oldState, moved);
+        if (!level.isBreathable(pos)) {
             if (state.getBlock() == Blocks.TORCH) {
-                world.setBlockAndUpdate(pos, GCBlocks.UNLIT_TORCH.defaultBlockState());
+                level.setBlockAndUpdate(pos, GCBlocks.UNLIT_TORCH.defaultBlockState());
             } else if (state.getBlock() == Blocks.WALL_TORCH) {
-                world.setBlockAndUpdate(pos, GCBlocks.UNLIT_WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, state.getValue(WallTorchBlock.FACING)));
+                level.setBlockAndUpdate(pos, GCBlocks.UNLIT_WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, state.getValue(WallTorchBlock.FACING)));
             }
-            world.addParticle(ParticleTypes.SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0.0D, 0.0D, 0.0D);
-            world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 0.9F, false);
+            level.addParticle(ParticleTypes.SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0.0D, 0.0D, 0.0D);
+            level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 0.9F, false);
         }
     }
 }
